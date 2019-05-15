@@ -24,9 +24,12 @@ int main(int argc, char** argv) {
     curl_easy_setopt(c, CURLOPT_URL, argv[1]);
     curl_easy_setopt(c, CURLOPT_WRITEDATA, &buffer);
     curl_easy_setopt(c, CURLOPT_WRITEFUNCTION, write_data);
+    curl_easy_setopt(c, CURLOPT_SSL_VERIFYPEER, 0L);
+    curl_easy_setopt(c, CURLOPT_USE_SSL, CURLUSESSL_TRY);
     curl_easy_setopt(c, CURLOPT_ERRORBUFFER, error_message);
     CURLcode code = curl_easy_perform(c);
     if (code != CURLE_OK) {
+        std::cout << "code " << code << std::endl;
         throw std::runtime_error(error_message);
     }
     long statusCode = 200;
